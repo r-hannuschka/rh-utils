@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "postinstall": "npm run build",
     "test": "mocha -r ts-node/register ./{src,tests}/**/*.spec.ts --watch --watch-extensions ts",
     "test-debug": "mocha --inspect-brk -r ts-node/register ./{src,tests}/**/*.spec.ts --watch --watch-extensions ts"
   },
@@ -18,6 +19,5 @@
     "mocha": "^5.0.1",
     "ts-node": "^5.0.0",
     "typescript": "^2.7.2"
-  },
-  "dependencies": {}
+  }
 }
