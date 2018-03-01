@@ -56,6 +56,34 @@ export class Config
     public import(data: Object) {
         this.configData = data;
     }
+    
+    public has(path: string = ''): boolean
+    {
+        const route  = path.split('.');
+        const needle = route.pop();
+
+        try {
+            const config = this.resolveNamespace(route);
+            return config.hasOwnProperty(needle);
+        } catch ( exception ) {
+            return false;
+        }
+    }
+
+    /**
+     * get config value by path
+     * 
+     * @param path 
+     */
+    public get(path: string = ''): any {
+
+        const route = path.split(".");
+        const name  = route.pop();
+        const configData = Object.assign(
+            {}, this.resolveNamespace(route));
+
+        return configData[name];
+    }
 
     /**
      * set config value
@@ -82,21 +110,6 @@ export class Config
         if ( ! config.hasOwnProperty(name) ) {
             config[name] = data;
         }
-    }
-
-    /**
-     * get config value by path
-     * 
-     * @param path 
-     */
-    public get(path: string = ''): any {
-
-        const route = path.split(".");
-        const name  = route.pop();
-        const configData = Object.assign(
-            {}, this.resolveNamespace(route));
-
-        return configData[name];
     }
 
     /**

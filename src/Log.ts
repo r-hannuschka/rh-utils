@@ -1,8 +1,7 @@
 import * as FileSystem from "fs";
 import { Config } from "./Config";
-
-export const LOG_ERROR = "error";
-export const LOG_DEBUG = "debug";
+import { ILogConfig } from "./api";
+import { Sanitize } from "./index";
 
 /**
  * Log Module
@@ -16,6 +15,12 @@ export class Log {
 
     public static readonly LOG_DEBUG = "debug";
 
+    public static readonly LOG_DEFAULT = "default";
+
+    private static readonly CONFIG_NAMESPACE_LOG: string = "logProvider";
+
+    private static readonly CONFIG_NAMESPACE_LOG_DIRECTORIES: string = "logProvider";
+
     private static instance = new Log();
 
     /**
@@ -27,11 +32,13 @@ export class Log {
      */
     private path: string;
 
+    private configProvider: Config;
+
     /**
      *
      * @private
      * @type {Map<string, FileSystem.WriteStream>}
-     * @memberof Logger
+     * @memberof Log
      */
     private streams: Map<string, FileSystem.WriteStream>
 
@@ -45,9 +52,9 @@ export class Log {
             throw new Error("could not create instance of Logger");
         }
 
-        this.streams = new Map<string, FileSystem.WriteStream>();
-        this.path    = Config.getInstance().get('paths.logs.root');
-        Log.instance = this;
+        this.streams        = new Map<string, FileSystem.WriteStream>();
+        this.configProvider = Config.getInstance();
+        Log.instance        = this;
     }
 
     /**
@@ -62,6 +69,16 @@ export class Log {
     }
 
     /**
+     * configure logging paths
+     * 
+     * @memberof Log
+     */
+    public configure(config: ILogConfig): void
+    {
+        this.configProvider.set(Log.CONFIG_NAMESPACE_LOG, config);
+    }
+
+    /**
      * log an message
      *
      * @param {string} type log type
@@ -70,30 +87,21 @@ export class Log {
      * @returns {Promise<void>}
      * @memberof Logger
      */
-    public log(type: string, body: any, path: string = null): Promise<void> {
+    public log(message: any, type: string = Log.LOG_DEBUG, path: string = null): void
+    {
+        let pathStat = null;
+        const logPath = path || this.resolvePath(type);
 
-        return new Promise<void>((resolve, reject) => {
+        try {
+            pathStat = FileSystem.statSync( logPath );
+        } catch (e) { pathStat = null; }
 
-            let pathStat = null;
-            const logPath = path || this.path;
+        if ( ! pathStat || ! pathStat.isDirectory()) {
+            throw new Error(`${path || this.path} is not an directory`);
+        }
 
-            try {
-                pathStat = FileSystem.statSync( logPath );
-            } catch (e) { pathStat = null; }
-
-            if ( ! pathStat || ! pathStat.isDirectory()) {
-                throw new Error(`${path || this.path} is not an valid directory`);
-            }
-
-            const stream: FileSystem.WriteStream = this.getWriteStream(type, logPath);
-            stream.write(this.createLogMessage(type, body), () => {
-                resolve();
-            });
-
-            stream.on("error", (err) => {
-                throw new Error(err);
-            });
-        });
+        const stream: FileSystem.WriteStream = this.getWriteStream(type, logPath);
+        stream.write(this.createLogMessage(type, message));
     }
 
     /**
@@ -166,5 +174,26 @@ ${body}`;
      */
     private addLeadingZero(value: string): string {
         return value.replace(/^(\d(?!\d))$/, "0$1");
+    }
+
+    private resolvePath(type: string): string {
+
+        if ( ! this.configProvider.has(Log.CONFIG_NAMESPACE_LOG_DIRECTORIES) ) {
+            throw new Error('no configuration value found');
+        }
+
+        const config = this.configProvider.get(Log.CONFIG_NAMESPACE_LOG_DIRECTORIES);
+
+        if ( ! config.hasOwnProperty(type) ) {
+            type = Log.LOG_DEFAULT;
+        }
+
+        const path = Sanitize.trim(config[type] || '');
+
+        if ( ! path.length ) {
+            throw new Error('path could not be empty');
+        }
+
+        return path;
     }
 }

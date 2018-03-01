@@ -55,6 +55,7 @@ describe ("ConfigTest", () => {
         config.get('path.video.youtube.error');
       }).to.throw('Config Path could not resolved');
     });
+
   })
 
   describe('Test set config value', () => {
@@ -155,6 +156,31 @@ describe ("ConfigTest", () => {
         }
       });
     });
+  })
 
+  describe('Test has config value', () => {
+    let config: Config;
+    let data: any;
+
+    before(() => {
+      config = Config.getInstance();
+    })
+
+    beforeEach( () => {
+      config.import({
+        path: {}
+      });
+    })
+
+    it('should have config value', () => {
+      config.set('my.awesome.number', '42', 'path');
+      const hasConfigValue: boolean = config.has('path.my.awesome.number');
+      expect(hasConfigValue).to.be.true;
+    });
+
+    it('should not have config value', () => {
+      const hasConfigValue: boolean = config.has('path.my.awesome.number');
+      expect(hasConfigValue).to.be.false;
+    });
   })
 })
