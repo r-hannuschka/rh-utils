@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "utils like Log, Config reader and so on",
   "main": "dist/index.js",
+  "types": "./lib/main.d.ts",
   "scripts": {
     "build": "tsc",
     "postinstall": "npm run build",
