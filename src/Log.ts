@@ -159,6 +159,9 @@ ${body}`;
         };
 
         const stream = FileSystem.createWriteStream(`${name}.log`, options);
+        stream.on('close', () => {
+            this.streams.delete(name);
+        });
 
         this.streams.set(name, stream);
         return stream;

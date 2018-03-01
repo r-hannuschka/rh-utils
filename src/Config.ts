@@ -1,4 +1,5 @@
 import { isObject } from "util";
+import { IDataNode } from "./index";
 
 export class Config
 {
@@ -16,10 +17,10 @@ export class Config
      * config data object
      * 
      * @private
-     * @type {Object}
+     * @type {IDataNode}
      * @memberof Config
      */
-    private configData: Object;
+    private configData: IDataNode;
 
     /**
      * Creates an instance of Config.
@@ -50,10 +51,10 @@ export class Config
      * import new config value,
      * this will override all existing configurations
      * 
-     * @param {Object} data 
+     * @param {IDataNode} data 
      * @memberof Config
      */
-    public import(data: Object) {
+    public import(data: IDataNode) {
         this.configData = data;
     }
     
@@ -143,7 +144,7 @@ export class Config
      * @returns {*} 
      * @memberof Config
      */
-    private resolveNamespace(partials: string[]): any {
+    private resolveNamespace(partials: string[]): IDataNode {
 
         let path: string[] = partials.slice(); 
         let item: string   = path.shift();
