@@ -59,4 +59,11 @@ declare module "rh-utils" {
 
         public static trim(value: string): string;
     }
+
+    export class PubSub {
+
+        public static subscribe(event: string, listener: () => {}): () => void;
+
+        public static publish(event: string, [arg1, arg2, ...argn]);
+    }
 }

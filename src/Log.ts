@@ -17,9 +17,9 @@ export class Log {
 
     public static readonly LOG_DEFAULT = "default";
 
-    private static readonly CONFIG_NAMESPACE_LOG: string = "logProvider";
+    private static readonly CONFIG_NAMESPACE_LOG: string = "log";
 
-    private static readonly CONFIG_NAMESPACE_LOG_DIRECTORIES: string = "logProvider";
+    private static readonly CONFIG_NAMESPACE_LOG_DIRECTORIES: string = "log.directories";
 
     private static instance = new Log();
 
@@ -182,7 +182,7 @@ ${body}`;
     private resolvePath(type: string): string {
 
         if ( ! this.configProvider.has(Log.CONFIG_NAMESPACE_LOG_DIRECTORIES) ) {
-            throw new Error('no configuration value found');
+            throw new Error(`no configuration value found for: ${type}`);
         }
 
         const config = this.configProvider.get(Log.CONFIG_NAMESPACE_LOG_DIRECTORIES);
