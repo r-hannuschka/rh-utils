@@ -21,6 +21,10 @@ declare module "rh-utils" {
         unsubscribe: () => {};
     }
 
+    export interface IObservable {
+        subscribe(sub: Function, topic?: string): ISubscription;
+    }
+
     export class Config {
         public static getInstance(): Config;
 
@@ -65,5 +69,28 @@ declare module "rh-utils" {
         public static subscribe(event: string, listener: () => {}): () => void;
 
         public static publish(event: string, [arg1, arg2, ...argn]);
+    }
+
+    export class Validator {
+
+        /**
+         * test given url is valid by regex to check url really exists @see Validator.urlExists
+         * 
+         * @static
+         * @param {string} url 
+         * @returns {boolean} 
+         * @memberof Validator
+         */
+        public static isUrl(url: string): boolean;
+
+        /**
+         * send head request to given url to determine url is callable ( exists )
+         * 
+         * @static
+         * @param {string} url 
+         * @returns {Promise<boolean>} 
+         * @memberof Validator
+         */
+        public static urlExists(url: string): Promise<boolean>;
     }
 }
