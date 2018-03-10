@@ -1,6 +1,6 @@
-import { PathLike } from "fs";
-
 declare module "rh-utils" {
+
+    import { PathLike } from "fs";
 
     export interface IDataNode {
         [key: string]: any
