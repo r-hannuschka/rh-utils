@@ -1,5 +1,6 @@
 import * as request from 'request';
 import { IncomingMessage } from 'http';
+import { PathLike, readdirSync, statSync, Stats } from 'fs';
 
 export class Validator {
 
@@ -60,5 +61,45 @@ export class Validator {
             });
         });
         return exists;
+    }
+
+    /**
+     * validate its an existing directory
+     *
+     * @param dir
+     */
+    public static isDirectory(dir: PathLike): boolean {
+        const stat: Stats =  statSync(dir);
+        return stat.isDirectory();
+    }
+
+    /**
+     * validate file exists
+     * 
+     * @param name
+     * @param dir
+     * @param [ignorePrefix]
+     */
+    public static fileExists(
+        name: string,
+        dir: PathLike,
+        ignorePrefix: boolean = false
+    ) {
+        if ( ! Validator.isDirectory(dir) ) {
+            throw new Error("no directory");
+        }
+
+        return readdirSync(dir).some( (file) => {
+
+            if ( Validator.isDirectory(`${dir}/${file}`) ) {
+                return false;
+            }
+
+            if ( ! ignorePrefix ) {
+                return file === name;
+            }
+
+            return file.match(/(.*)\.[^\.]+$/) ? RegExp.$1 === name : false;
+        });
     }
 }

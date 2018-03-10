@@ -1,4 +1,4 @@
-///<reference types="typescript" />
+import { PathLike } from "fs";
 
 declare module "rh-utils" {
 
@@ -92,5 +92,21 @@ declare module "rh-utils" {
          * @memberof Validator
          */
         public static urlExists(url: string): Promise<boolean>;
+
+        /**
+         * validate its an existing directory
+         * 
+         * @param dir 
+         */
+        public static isDirectory(dir: PathLike): boolean;
+
+        /**
+         * validate file exists
+         * 
+         * @param name
+         * @param dir
+         * @param [ignorePrefix]
+         */
+        public static fileExists( name: string, dir: PathLike, ignorePrefix?: boolean): boolean;
     }
 }
