@@ -1,10 +1,9 @@
 export interface ILogConfig {
 
-    directories: {
-        debug?: string,
-
-        error?: string,
-
-        default: string
+    LogModule: {
+        paths: {
+            debug: string,
+            error: string
+        }
     }
 } 

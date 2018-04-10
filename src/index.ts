@@ -6,3 +6,8 @@ export * from './Sanitize';
 export * from './Validator';
 
 export * from './api';
+
+import { Log } from "./Log";
+import { logConfig } from "./etc/log.config";
+
+Log.configure(logConfig);

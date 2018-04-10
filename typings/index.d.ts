@@ -7,13 +7,11 @@ declare module "rh-utils" {
     }
 
     export interface ILogConfig {
-
-        directories: {
-            debug?: string,
-
-            error?: string,
-
-            default: string
+        LogModule: {
+            paths?: {
+                debug?: string,
+                error?: string
+            }
         }
     } 
 
@@ -45,7 +43,7 @@ declare module "rh-utils" {
 
         public static getInstance(): Log;
 
-        public configure(config: ILogConfig): void;
+        public static configure(config: ILogConfig);
 
         public log(message: string, type?: string, path?: string): void;
     }

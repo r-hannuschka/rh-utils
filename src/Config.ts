@@ -49,13 +49,13 @@ export class Config
 
     /**
      * import new config value,
-     * this will override all existing configurations
+     * this will merge and override existing configurations
      * 
      * @param {IDataNode} data 
      * @memberof Config
      */
     public import(data: IDataNode) {
-        this.configData = data;
+        this.configData = Object.assign(this.configData, data);
     }
     
     public has(path: string = ''): boolean
