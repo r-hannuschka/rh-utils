@@ -35,6 +35,10 @@ declare module "rh-utils" {
         public set(key: string, data: any, path?: string);
    }
 
+   export class Helper {
+       public static generateId(): string;
+   }
+
     export class Log {
 
         public static readonly LOG_DEBUG: string;

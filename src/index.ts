@@ -1,5 +1,6 @@
 export * from './Config';
 export * from './Log';
+export * from './Helper';
 export * from './Observable';
 export * from './PubSub';
 export * from './Sanitize';
