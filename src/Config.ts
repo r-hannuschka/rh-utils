@@ -99,7 +99,7 @@ export class Config
         const ns: string[] = property.split('.'); 
         const name = ns.pop();
 
-        let route: string[] = path.split(".");
+        let route: string[] = path.length ? path.split(".") : [];
         let config: Object;
 
         if ( ns.length ) {
