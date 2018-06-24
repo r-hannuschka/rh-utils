@@ -34,7 +34,7 @@ declare module "rh-utils" {
 
         public import(source: IDataNode);
 
-        public set(key: string, data: any, override: boolean, path?: string);
+        public set(key: string, data: any, override?: boolean, path?: string);
    }
 
    export class Helper {

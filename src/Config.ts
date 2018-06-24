@@ -94,7 +94,7 @@ export class Config
      * @param {string} [path=''] 
      * @memberof Config
      */
-    public set(property: string, data: any, override: false, path: string = '') {
+    public set(property: string, data: any, override: boolean = false, path: string = '') {
 
         const ns: string[] = property.split('.'); 
         const name = ns.pop();
