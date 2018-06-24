@@ -26,13 +26,15 @@ declare module "rh-utils" {
     export class Config {
         public static getInstance(): Config;
 
+        public generateNamespace(namespace: string);
+
         public get(key: string): any;
 
         public has(path: string): boolean;
 
         public import(source: IDataNode);
 
-        public set(key: string, data: any, path?: string);
+        public set(key: string, data: any, override: boolean, path?: string);
    }
 
    export class Helper {
