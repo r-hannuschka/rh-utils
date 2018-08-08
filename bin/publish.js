@@ -34,6 +34,7 @@ const npmVersionProcess = spawn(
 );
 
 npmVersionProcess.on("data", (data) => {
+    console.log("ABER ICH KOMME HIER AN ????");
     packageVersionNumber = data.toString();
     console.log(packageVersionNumber);
 });
