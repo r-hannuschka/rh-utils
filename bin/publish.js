@@ -34,7 +34,7 @@ const npmVersionProcess = spawn(
 );
 
 npmVersionProcess.stdout.on("data", (msg) => {
-    packageVersionNumber = msg.toString().replace(/(^\s*|\s*$)/, '');
+    packageVersionNumber = msg.toString().replace(/(^\s*|\s*$)/gm, '');
 });
 
 npmVersionProcess.on("exit", async (exitCode) => {
@@ -42,6 +42,8 @@ npmVersionProcess.on("exit", async (exitCode) => {
     if ( exitCode !== 0 ) {
         return;
     }
+
+    console.log(packageVersionNumber.length);
 
     try {
         await spawnProcess("git", "tag");
