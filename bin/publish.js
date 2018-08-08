@@ -61,6 +61,6 @@ function spawnProcess(command, ...args) {
                     resolve();
                 }
             })
-            .on("error", (e) => reject(e) );
+            .on("error", (e) => reject(`process ${command} error ${e}`) );
     });
 }
