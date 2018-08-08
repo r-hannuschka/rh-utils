@@ -47,7 +47,6 @@ npmVersionProcess.on("close", async (exitCode) => {
         await spawnProcess("git", 'push', 'origin', packageVersionNumber);
         await spawnProcess(npmCommand, `publish`);
     } catch ( error ) {
-        console.error(error);
         process.exit(1);
     }
 });
@@ -57,11 +56,11 @@ function spawnProcess(command, ...args) {
         spawn(command, args, { stdio: 'inherit'})
             .on("close", (exitCode) => {
                 if ( exitCode !== 0 ) {
-                    reject();
+                    reject(`process exited with ${exitCode}`);
                 } else {
                     resolve();
                 }
             })
-            .on("error", (e) => reject() );
+            .on("error", (e) => reject(e) );
     });
 }
