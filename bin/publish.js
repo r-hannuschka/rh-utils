@@ -29,11 +29,11 @@ const npmVersionProcess = spawn(
     npmCommand,
     ["version", version],
     {
-        stdio: "inherit"
+        stdio: [0, 'pipe', 2]
     }
 );
 
-npmVersionProcess.on("message", (msg) => {
+npmVersionProcess.stdout.on("data", (msg) => {
     console.log("ABER ICH KOMME HIER AN ????");
     packageVersionNumber = msg.toString();
     console.log(packageVersionNumber);
