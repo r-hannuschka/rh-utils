@@ -34,9 +34,7 @@ const npmVersionProcess = spawn(
 );
 
 npmVersionProcess.stdout.on("data", (msg) => {
-    console.log("ABER ICH KOMME HIER AN ????");
     packageVersionNumber = msg.toString();
-    console.log(packageVersionNumber);
 });
 
 npmVersionProcess.on("close", async (exitCode) => {
@@ -45,10 +43,8 @@ npmVersionProcess.on("close", async (exitCode) => {
         return;
     }
 
-    console.log(packageVersionNumber);
-
     try {
-        await spawnProcess("git", `push origin ${packageVersionNumber}`);
+        await spawnProcess("git", 'push', 'origin', packageVersionNumber);
         await spawnProcess(npmCommand, `publish`);
     } catch ( error ) {
         console.error(error);
