@@ -1,9 +1,11 @@
 {
   "name": "rh-utils",
-  "version": "1.0.3-0",
+  "version": "1.0.4-0",
   "description": "utils like Log, Config reader and so on",
   "main": "lib/index.js",
-  "files": ["./lib"],
+  "files": [
+    "./lib"
+  ],
   "types": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc",
