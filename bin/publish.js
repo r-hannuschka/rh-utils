@@ -37,7 +37,7 @@ npmVersionProcess.stdout.on("data", (msg) => {
     packageVersionNumber = msg.toString();
 });
 
-npmVersionProcess.on("close", async (exitCode) => {
+npmVersionProcess.on("exit", async (exitCode) => {
 
     if ( exitCode !== 0 ) {
         return;
@@ -54,7 +54,7 @@ npmVersionProcess.on("close", async (exitCode) => {
 function spawnProcess(command, ...args) {
     return new Promise((resolve, reject) => {
         spawn(command, args, { stdio: 'inherit'})
-            .on("close", (exitCode) => {
+            .on("exit", (exitCode) => {
                 if ( exitCode !== 0 ) {
                     reject(`process exited with ${exitCode}`);
                 } else {
