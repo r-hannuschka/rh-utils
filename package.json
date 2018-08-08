@@ -1,6 +1,6 @@
 {
   "name": "rh-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "utils like Log, Config reader and so on",
   "main": "lib/index.js",
   "types": "./typings/index.d.ts",
