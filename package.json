@@ -3,6 +3,7 @@
   "version": "1.0.4-0",
   "description": "utils like Log, Config reader and so on",
   "main": "lib/index.js",
+  "module": "lib/index.js",
   "files": [
     "./lib"
   ],
