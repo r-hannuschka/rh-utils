@@ -12,7 +12,7 @@
   "author": "Ralf Hannuschka",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "4.1.2",
+    "@types/chai": "4.1.4",
     "@types/mocha": "5.2.5",
     "@types/node": "9.6.26",
     "chai": "4.1.2",
